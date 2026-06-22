@@ -3,49 +3,48 @@ import random
 
 # 定义规则库：模式(正则表达式) -> 响应模板列表
 rules = {
-    r'I need (.*)': [
-        "Why do you need {0}?",
-        "Would it really help you to get {0}?",
-        "Are you sure you need {0}?"
+    r'我(?:需要|想要)(.*)': [
+        "你为什么需要{0}？",
+        "得到{0}真的能帮到你吗？",
+        "你确定你需要{0}吗？"
     ],
-    r'Why don\'t you (.*)\?': [
-        "Do you really think I don't {0}?",
-        "Perhaps eventually I will {0}.",
-        "Do you really want me to {0}?"
+    r'你为什么不(.*)[?？]?': [
+        "你真的觉得我不{0}吗？",
+        "也许有一天我会{0}的。",
+        "你真的想让我{0}吗？"
     ],
-    r'Why can\'t I (.*)\?': [
-        "Do you think you should be able to {0}?",
-        "If you could {0}, what would you do?",
-        "I don't know -- why can't you {0}?"
+    r'我(?:为什么|为何)不能(.*)[?？]?': [
+        "你觉得你应该能够{0}吗？",
+        "如果你能{0}，你会怎么做？",
+        "我不知道——为什么你不能{0}呢？"
     ],
-    r'I am (.*)': [
-        "Did you come to me because you are {0}?",
-        "How long have you been {0}?",
-        "How do you feel about being {0}?"
+    r'我(?:是|觉得|感到)(.*)': [
+        "你来找我是因为你{0}吗？",
+        "你{0}这种情况多久了？",
+        "对于{0}，你有什么感受？"
     ],
-    r'.* mother .*': [
-        "Tell me more about your mother.",
-        "What was your relationship with your mother like?",
-        "How do you feel about your mother?"
+    r'.*(?:妈妈|母亲|妈).*': [
+        "请多跟我说说你的母亲。",
+        "你和母亲之间的关系怎么样？",
+        "你对母亲有什么感受？"
     ],
-    r'.* father .*': [
-        "Tell me more about your father.",
-        "How did your father make you feel?",
-        "What has your father taught you?"
+    r'.*(?:爸爸|父亲|爸).*': [
+        "请多跟我说说你的父亲。",
+        "你父亲让你有什么感受？",
+        "你父亲教会了你什么？"
     ],
     r'.*': [
-        "Please tell me more.",
-        "Let's change focus a bit... Tell me about your family.",
-        "Can you elaborate on that?"
+        "请再多告诉我一些。",
+        "我们换个话题吧……跟我说说你的家人。",
+        "能详细说说吗？"
     ]
 }
 
 # 定义代词转换规则
 pronoun_swap = {
-    "i": "you", "you": "i", "me": "you", "my": "your",
-    "am": "are", "are": "am", "was": "were", "i'd": "you would",
-    "i've": "you have", "i'll": "you will", "yours": "mine",
-    "mine": "yours"
+    "我": "你", "你": "我", "我的": "你的", "你的": "我的",
+    "我是": "你是", "你是": "我是", "我有": "你有", "你有": "我有",
+    "我想": "你想", "你想": "我想",
 }
 
 def swap_pronouns(phrase):
@@ -75,11 +74,11 @@ def respond(user_input):
 
 # 主聊天循环
 if __name__ == '__main__':
-    print("Therapist: Hello! How can I help you today?")
+    print("心理咨询师: 你好！今天有什么想聊的吗？")
     while True:
         user_input = input("You: ")
         if user_input.lower() in ["quit", "exit", "bye"]:
             print("Therapist: Goodbye. It was nice talking to you.")
             break
         response = respond(user_input)
-        print(f"Therapist: {response}")
+        print(f"心理咨询师: {response}")
