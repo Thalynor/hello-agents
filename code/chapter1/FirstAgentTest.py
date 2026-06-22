@@ -58,7 +58,6 @@ def get_weather(city: str) -> str:
 
 
 
-import os
 from tavily import TavilyClient
 
 def get_attraction(city: str, weather: str) -> str:
@@ -67,7 +66,7 @@ def get_attraction(city: str, weather: str) -> str:
     """
 
     # 从环境变量或主程序配置中获取API密钥
-    api_key = os.environ.get("TAVILY_API_KEY") # 推荐方式
+    api_key = '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'
     # 或者，我们可以在主循环中传入，如此处代码所示
 
     if not api_key:
@@ -128,7 +127,7 @@ class OpenAICompatibleClient:
             ]
             response = self.client.chat.completions.create(
                 model=self.model,
-                messages=messages,
+                messages=messages,  #type: ignore
                 stream=False
             )
             answer = response.choices[0].message.content
@@ -142,10 +141,9 @@ import re
 
 # --- 1. 配置LLM客户端 ---
 # 请根据您使用的服务，将这里替换成对应的凭证和地址
-API_KEY = "YOUR_API_KEY"
-BASE_URL = "YOUR_BASE_URL"
-MODEL_ID = "YOUR_MODEL_ID"
-os.environ['TAVILY_API_KEY'] = "YOUR_TAVILY_API_KEY"
+API_KEY = "sk-cg17pzkaiyy6hylgctvhhwzjsy7dylto1elk81insiyxoh83"
+BASE_URL = "https://api.xiaomimimo.com/v1/chat/completions"
+MODEL_ID = "mimo-v2.5-pro"
 
 llm = OpenAICompatibleClient(
     model=MODEL_ID,
