@@ -5,6 +5,7 @@ load_dotenv()
 import os
 from serpapi import SerpApiClient
 from typing import Dict, Any
+from datetime import datetime
 
 def search(query: str) -> str:
     """
@@ -36,10 +37,10 @@ def search(query: str) -> str:
         if "knowledge_graph" in results and "description" in results["knowledge_graph"]:
             return results["knowledge_graph"]["description"]
         if "organic_results" in results and results["organic_results"]:
-            # 如果没有直接答案，则返回前三个有机结果的摘要
+            # 如果没有直接答案，则返回前五个有机结果的摘要
             snippets = [
                 f"[{i+1}] {res.get('title', '')}\n{res.get('snippet', '')}"
-                for i, res in enumerate(results["organic_results"][:3])
+                for i, res in enumerate(results["organic_results"][:5])
             ]
             return "\n\n".join(snippets)
         
@@ -48,7 +49,12 @@ def search(query: str) -> str:
     except Exception as e:
         return f"搜索时发生错误: {e}"
     
-from typing import Dict, Any
+# 获取当前时间
+def get_current_time(*args) -> str:
+    """
+    获取当前的本地时间，格式为 YYYY-MM-DD HH:MM:SS。
+    """
+    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 class ToolExecutor:
     """
@@ -84,6 +90,7 @@ class ToolExecutor:
 
 
 # --- 工具初始化与使用示例 ---
+# 只有直接运行该python文件时，__name__才会被设置成__main__
 if __name__ == '__main__':
     # 1. 初始化工具执行器
     toolExecutor = ToolExecutor()

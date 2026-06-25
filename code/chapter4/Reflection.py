@@ -1,5 +1,4 @@
 from typing import List, Dict, Any
-# 假设 llm_client.py 文件已存在，并从中导入 HelloAgentsLLM 类
 from llm_client import HelloAgentsLLM
 
 # --- 模块 1: 记忆模块 ---
@@ -95,11 +94,12 @@ REFINE_PROMPT_TEMPLATE = """
 """
 
 class ReflectionAgent:
-    def __init__(self, llm_client, max_iterations=3):
+    def __init__(self, llm_client, max_iterations=5):
         self.llm_client = llm_client
         self.memory = Memory()
         self.max_iterations = max_iterations
 
+    # 智能体执行任务的核心逻辑
     def run(self, task: str):
         print(f"\n--- 开始处理任务 ---\n任务: {task}")
 
@@ -109,7 +109,7 @@ class ReflectionAgent:
         initial_code = self._get_llm_response(initial_prompt)
         self.memory.add_record("execution", initial_code)
 
-        # --- 2. 迭代循环：反思与优化 ---
+        # --- 2. 迭代循环：反思与优化，并且设置了最大循环次数 ---
         for i in range(self.max_iterations):
             print(f"\n--- 第 {i+1}/{self.max_iterations} 轮迭代 ---")
 
@@ -148,11 +148,7 @@ class ReflectionAgent:
 
 if __name__ == '__main__':
     # 1. 初始化LLM客户端 (请确保你的 .env 和 llm_client.py 文件配置正确)
-    try:
-        llm_client = HelloAgentsLLM()
-    except Exception as e:
-        print(f"初始化LLM客户端时出错: {e}")
-        exit()
+    llm_client = HelloAgentsLLM()
 
     # 2. 初始化 Reflection 智能体，设置最多迭代2轮
     agent = ReflectionAgent(llm_client, max_iterations=2)
@@ -160,4 +156,3 @@ if __name__ == '__main__':
     # 3. 定义任务并运行智能体
     task = "编写一个Python函数，找出1到n之间所有的素数 (prime numbers)。"
     agent.run(task)
-
